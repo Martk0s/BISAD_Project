@@ -1,0 +1,58 @@
+#myBtn {
+  display: none;
+  position: fixed;
+  bottom: 110px;
+  right: 48px;
+  z-index: 99;
+  font-size: 18px;
+  border: none;
+  outline: none;
+  background-color: rgba(85, 85, 85 , 0.5);
+  color: white;
+  cursor: pointer;
+  padding: 15px;
+  border-radius: 4px;
+  box-shadow: 2px 2px 3px #999;
+}
+
+.float{
+  position:fixed;
+  z-index: 99;
+	width:60px;
+	height:60px;
+	bottom:40px;
+	right:40px;
+	background-color:#17a2b8;
+	color:#FFF;
+	border-radius:50px;
+	text-align:center;
+	box-shadow: 2px 2px 3px #999;
+}
+
+.my-float{
+	margin-top:22px;
+}
+
+#myBtn:hover {
+  background-color: rgb(126, 126, 126);
+}
+
+/* unvisited link */
+a:link {
+  color: #0d5c68;
+}
+
+/* visited link */
+a:visited {
+  color: #0d5c68;
+}
+
+/* mouse over link */
+a:hover {
+  color: white;
+}
+
+/* selected link */
+a:active {
+  color: white;
+}
