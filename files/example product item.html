@@ -1,0 +1,102 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/color.css">
+    <link rel="stylesheet" href="./css/ScrollToTop.css">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://kit.fontawesome.com/9cdefafb29.js" crossorigin="anonymous"></script>
+    <title>Shoes Shoes 🚂</title>
+</head>
+<style>
+    /* Head container */
+    .container-classa {
+    background-image: url('../img/head.jpg');
+    background-repeat: no-repeat;
+    background-position: top;
+    width: 48%;
+    height: 300px;
+    border: 2px dashed #333;
+    border-radius: 25px;
+    position: relative;
+    top: 80px;
+    margin: 0 auto;
+    }
+    .page-header {
+        font-size: 80px;
+        color:white;
+        text-align: center;
+    }
+    .container-border{
+        position: relative;
+        margin: 0 auto;
+        border: 2px dashed #333;
+        border-radius: 25px;
+    }
+    .shoes-image {
+        width: 100%;
+    }
+    
+    .id-no {
+        position: absolute;
+        right: 30;
+    }
+
+    .card-text {
+        color: rgb(100, 100, 100);
+    }
+    .update-btn {
+        position: absolute;
+        /* right: 125; */
+        right: 25;
+    }
+    .delete-btn {
+        position: absolute;
+        right: 25;
+    }
+</style>
+<div class='container py-3'>
+    <div class='card'><div class='row'>
+        <div class='col-md-4'>
+            <img src='https://images.asos-media.com/products/new-balance-997-trainers-in-black/12883809-2?$XXL$&wid=513&fit=constrain' class='shoes-image'>
+        </div>
+        <div class='col-md-8 px-3 py-3'>
+            <div class='card-block px-3'>
+                <p class='id-no' style='text-align: right; color: rgb(200, 200, 200);'>ID: 5deb83b624813e5b184eeb2f<br></p>
+                <h2 class='card-title'>New Balance</h2>
+                <p class='card-text'> <b>Model</b><br>&ensp;&ensp;997</p>
+                <p class='card-text'> <b>Type</b><br>&ensp;&ensp;Trainers</p>
+                <hr><p class='card-text'> <b>Gender</b><br>&ensp;&ensp;Female</p>
+                <p class='card-text'><b>UK &ensp;</b>3&ensp;&ensp;4&ensp;&ensp;5&ensp;&ensp;6&ensp;&ensp;7&ensp;&ensp;8&ensp;&ensp;9&ensp;&ensp;<br></p>
+                <div class='container'>
+                    <div class='row'>
+                        <p class='card-text'>
+                            <b>Color&ensp;</b></p><div class='color-box Black'></div>
+                            <p class='card-text'>Black</p>
+                        </div></div>
+                        <h4 style='color: #00a2e2;'>$ 126.33</h4>
+                        <div>
+                            <form action="update.php" method="POST">
+                                <input type="hidden" name="_id" value="5deb83b624813e5b184eeb2f">
+                                <input type="hidden" name="brand" value="New Balance">
+                                <input type="hidden" name="model" value="997">
+                                <input type="hidden" name="type" value="Trainers">
+                                <input type="hidden" name="gender" value="Female">
+                                <input type="hidden" name="color" value="Black">
+                                <button type="input" class="btn btn-success update-btn"><i class="fas fa-pencil-alt"></i> Update</button>
+                            </form>
+                            <form action="delete.php" method="POST">
+                                <input type="hidden" name="_id" value="5deb83b624813e5b184eeb2f">
+                                <input type="hidden" name="brand" value="New Balance">
+                                <input type="hidden" name="model" value="997">
+                                <input type="hidden" name="type" value="Trainers">
+                                <input type="hidden" name="gender" value="Female">
+                                <input type="hidden" name="color" value="Black">
+                                <button type="input" class="btn btn-danger delete-btn"><i class="fas fa-trash-alt"></i> Delete</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

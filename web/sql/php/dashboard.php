@@ -18,11 +18,7 @@ if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true){
 </head>
 <body>
     <div class="form">
-        <p><?php var_dump($_SESSION)?></p>
         <p>User : <?php echo $_SESSION['username']; ?></p>
-        <p>First Name : <?php echo $_SESSION['first_name']; ?></p>
-        <p>Last Name : <?php echo $_SESSION['last_name']; ?></p>
-        <p>email : <?php echo $_SESSION['email']; ?></p>
         <?php
         $username = $_SESSION['username'];
         $query = "SELECT * FROM `user_account` WHERE username='$username'";
