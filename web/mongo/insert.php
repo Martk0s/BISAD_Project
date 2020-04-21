@@ -12,7 +12,7 @@
 <style>
     /* Head container */
     .container-classa {
-    background-image: url('../img/Head.jpg');
+    background-image: url('./img/Head.jpg');
     background-repeat: no-repeat;
     background-position: top;
     width: 48%;
