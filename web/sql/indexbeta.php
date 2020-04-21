@@ -78,8 +78,7 @@
     // function to connect and execute the query
     function filterTable($query)
     {   
-        $connect = mysqli_connect("localhost:3307", "root", "", "bisad") or die ("could not connect to mysql");
-        $filter_Result = mysqli_query($query, $connect) or die( mysqli_error($connect);
+        $filter_Result = mysqli_query($query, $conn) or die(mysql_error());
         return $filter_Result;
     }
 ?>
