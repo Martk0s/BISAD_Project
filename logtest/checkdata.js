@@ -1,5 +1,4 @@
-function checkData() {
-
+function checkData() {    
     //username
     var username = document.forms["Form"]["username"].value;
     if (username.length < 5)

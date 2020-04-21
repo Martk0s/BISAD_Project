@@ -10,7 +10,8 @@
 <?php
     require('db.php');
     // When form submitted, insert values into the database.
-    if (isset($_REQUEST['username'])) {
+    if (isset($_REQUEST['username'])){ 
+
         // removes backslashes
         $username = stripslashes($_REQUEST['username']);
         //escapes special characters in a string
@@ -33,23 +34,29 @@
         
         $address = stripslashes($_REQUEST['address']);
         $address = mysqli_real_escape_string($con, $address);
-        
-        $create_datetime = date("Y-m-d H:i:s");
 
-        $check_sql="SELECT * FROM users WHERE username= '".$username."' ";
-        $check_username= $con->query($check_sql) or die($con->error);
+        if(trim($username) && trim($password) && trim($email) && trim($fname) && trim($lname) && trim($tel) && trim($address) == TRUE) {
+            
+            $create_datetime = date("Y-m-d H:i:s");
 
-        if(!$check_username->num_rows){
-            $hash_password= password_hash($password, PASSWORD_DEFAULT);
-            $sql = "INSERT into `users` (fname, lname, tel, address, username, password, email, create_datetime)
-                    VALUES ('$fname', '$lname', '$tel', '$address', '$username', '" . md5($password) . "', '$email', '$create_datetime')";
-            $res=mysqli_query($con,$sql);
-                echo "<script> alert('Register Success');</script>";
-                header("location: login.php");
-        }else{
-                echo "<script> alert('ชื่อผู้ใช้นี้ ถูกใช้ไปแล้ว! โปรดกรอกข้อมูลใหม่อีกครั้ง');</script>";
-                header("Refresh:0");
-        }        
+            $check_sql="SELECT * FROM users WHERE username= '".$username."' ";
+            $check_username= $con->query($check_sql) or die($con->error);
+
+            if(!$check_username->num_rows){
+                $hash_password= password_hash($password, PASSWORD_DEFAULT);
+                $sql = "INSERT into `users` (fname, lname, tel, address, username, password, email, create_datetime)
+                        VALUES ('$fname', '$lname', '$tel', '$address', '$username', '" . md5($password) . "', '$email', '$create_datetime')";
+                $res=mysqli_query($con,$sql);
+                    echo "<script> alert('Register Success');</script>";
+                    header("location: login.php");
+            }else{
+                    echo "<script> alert('ชื่อผู้ใช้นี้ ถูกใช้ไปแล้ว! โปรดกรอกข้อมูลใหม่อีกครั้ง');</script>";
+                    header("Refresh:0");
+                }   
+        } else {
+                    echo "<script> alert('กรุณากรอกข้อมูลให้ครบถ้วน');</script>";
+                    header("Refresh:0");
+        }
     } else {
 ?>
     <form class="form" action="" id="Form" method="post" onsubmit="return checkData()">
