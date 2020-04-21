@@ -6,12 +6,10 @@
     <link rel="stylesheet" href="style.css"/>
 </head>
 <script src="checkdata.js" type="text/javascript"></script>
-<body>
 <?php
     require('db.php');
     // When form submitted, insert values into the database.
-    if (isset($_REQUEST['username'])){ 
-
+    if (isset($_REQUEST['username'])){
         // removes backslashes
         $username = stripslashes($_REQUEST['username']);
         //escapes special characters in a string
@@ -53,26 +51,21 @@
                     echo "<script> alert('ชื่อผู้ใช้นี้ ถูกใช้ไปแล้ว! โปรดกรอกข้อมูลใหม่อีกครั้ง');</script>";
                     header("Refresh:0");
                 }   
-        } else {
-                    echo "<script> alert('กรุณากรอกข้อมูลให้ครบถ้วน');</script>";
-                    header("Refresh:0");
         }
-    } else {
-?>
-    <form class="form" action="" id="Form" method="post" onsubmit="return checkData()">
-        <h1 class="login-title">Registration</h1>
-        <input type="text" class="login-input" name="username" placeholder="Username" required />
-        <input type="password" class="login-input" name="password" placeholder="Password">
-        <input type="text" class="login-input" name="email" placeholder="Email Adress">
-        <input type="text" class="login-input" name="fname" placeholder="First Name">
-        <input type="text" class="login-input" name="lname" placeholder="Last Name">
-        <input type="text" class="login-input" name="tel" placeholder="Telephone number">
-        <input type="text" class="login-input" name="address" placeholder="Address">
-        <input type="submit" name="submit" value="Register" class="login-button">
-        <p class="link"><a href="login.php">Click to Login</a></p>
-    </form>
-<?php
     }
 ?>
+<body>
+    <form class="form" action="" id="Form" method="post" onsubmit="return checkdata()">
+        <h1 class="login-title">Registration</h1>
+        <input type="text" class="login-input" name="username" placeholder="Username" required />
+        <input type="password" class="login-input" name="password" placeholder="Password" required/>
+        <input type="text" class="login-input" name="email" placeholder="Email Adress" required/>
+        <input type="text" class="login-input" name="fname" placeholder="First Name" required/>
+        <input type="text" class="login-input" name="lname" placeholder="Last Name" required/>
+        <input type="text" class="login-input" name="tel" placeholder="Telephone number" required/>
+        <input type="text" class="login-input" name="address" placeholder="Address" required/>
+        <input type="submit" name="submit" value="submit" class="login-button">
+        <p class="link"><a href="login.php">Click to Login</a></p>
+    </form>
 </body>
 </html>
