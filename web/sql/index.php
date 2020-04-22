@@ -56,15 +56,19 @@
     }
 </style>
 <body>
-
-    <?php include("php/connect.php");?>
+    
+    <?php
+        include("php/connect.php");
+        include("php/navbar.php");
+        var_dump($_SESSION); // Debug
+    ?>
 
     <!-- Scroll To Top Button -->
     <button onclick="topFunction()" id="myBtn" title="Go to top"><i class="fas fa-chevron-up"></i></button>
     <!-- END of Scroll To Top Button -->
 
     <div class = "container-classa">
-        <h4 class="head page-header"><br>SHOES</h4>
+        <h4 class="head page-header"><br>SHOES &ensp;SHOES</h4>
     </div>
     <br><br><br><br><br><br>
     <!-- filter container -->
@@ -161,7 +165,7 @@
             <!-- BUTTON -->
             <br>
             <div class="row" style="margin-left: 100; margin-right: 100;">
-                <button type="input" id="filter" class="btn btn-secondary btn-block" name="filter" onclick="delet_this()"><i class="fas fa-filter"></i> Filter</i></button>
+                <button type="input" id="filter" class="btn btn-secondary btn-block" name="filter"><i class="fas fa-filter"></i> Filter</i></button>
             <!-- END BUTTON -->
             </div>
         </form>
@@ -208,7 +212,7 @@
             $query = "SELECT * FROM `product`";
         }
         
-        // var_dump($query); // Debug
+        // var_dump($query); //Debug
         $result = mysqli_query($conn, $query) or die(mysqli_error());
         while($row = mysqli_fetch_array($result)) {
             echo "<div class='container py-3'>";
@@ -249,9 +253,10 @@
             echo "</div>";
             echo "<h4 style='color: #00a2e2;'>$ " . $row["price"] . "</h4>";//price ($)
             echo "<div>";
-            echo '<form action="update.php" method="POST">
+            echo '<form action="" method="POST">
             <input type="hidden" name="_id" value="' . $row["product_id"] . '">
-            <button type="input" class="btn btn-success update-btn"><i class="fas fa-cart-plus"></i> Add to cart</button>
+            <input type="hidden" name="price" value="' . $row["price"] . '">
+            <button type="input" id="add_to_cart" name="add_to_cart" class="btn btn-success update-btn"><i class="fas fa-cart-plus"></i> Add to cart</button>
             </form>';
             echo "</div>";
             echo "</div>";
@@ -263,6 +268,26 @@
         // }
 
     ?>
+<!-- ADD TO CART -->
+<?php
+    if(isset($_POST['add_to_cart'])) {
+        if(!isset($_SESSION["username"])) {
+            echo
+            '<script>
+                alert("Please login.");
+                window.location.replace("login.php");
+            </script>';
+        }else{
+            $product_id = $_POST["_id"];
+            $order_id = $_SESSION["order_id"];
+            $price_each = $_POST["price"];
+            $sql = "INSERT into `cus_order_product` (product_id, order_id, price_each)
+                    VALUES ($product_id, $order_id, $price_each)";
+            $res=mysqli_query($conn,$sql);
+            echo "<script> alert('Successfully added item to cart.');</script>";
+        }
+    }
+?>
 
 </body>
 <script>

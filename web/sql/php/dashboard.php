@@ -18,39 +18,28 @@ if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true){
 </head>
 <body>
     <div class="form">
-        <p>User : <?php echo $_SESSION['username']; ?></p>
+        <p>You're logged in as : <?php echo $_SESSION['first_name']; ?> <br></p>
         <?php
-        $username = $_SESSION['username'];
-        $query = "SELECT * FROM `user_account` WHERE username='$username'";
-        $result = mysqli_query($conn, $query) or die(mysql_error());
-        while($row = mysqli_fetch_array($result)) {
-            echo "<tr>";
-              echo "<p>" .$row["username"];
-              echo "<p>" .$row["password"];
-              echo "<p>" .$row["first_name"];
-              echo "<p>" .$row["last_name"];
-              echo "<p>" .$row["telephone"];
-            echo "</tr>";
-            }
+        // $username = $_SESSION['username'];
+        // $query = "SELECT * FROM `user_account` WHERE username='$username'";
+        // $result = mysqli_query($conn, $query) or die(mysql_error());
+        // while($row = mysqli_fetch_array($result)) {
+        //     echo "<tr>";
+        //       echo "<p>" .$row["username"];
+        //       echo "<p>" .$row["password"];
+        //       echo "<p>" .$row["first_name"];
+        //       echo "<p>" .$row["last_name"];
+        //       echo "<p>" .$row["telephone"];
+        //     echo "</tr>";
+        //     }
+        echo "<p>" . $_SESSION["user_account_id"];
+        echo "<p>" . $_SESSION["first_name"];
+        echo "<p>" . $_SESSION["last_name"];
+        echo "<p>" . $_SESSION["address"];
+        echo "<p>" . $_SESSION["telephone"];
         ?>
         <p>You are now user dashboard page.</p>
         <p><a href="logout.php">Logout</a></p>
-
-        <?php
-            $query = "SELECT * FROM `product`";
-            $result = mysqli_query($conn, $query) or die(mysql_error());
-            while($row = mysqli_fetch_array($result)) {
-                echo "<p>product_name : " .$row["product_name"];
-                echo "<p>product_type : " .$row["product_type"];
-                echo "<p>gender : " .$row["gender"];
-                echo "<p>price : " .$row["price"];
-                echo "<p>color : " .$row["color"];
-                echo "<p>size_uk : " .$row["size_uk"];
-                echo "<p>product_image : " .$row["product_image"];
-                echo "<p>brand_id : " .$row["brand_id"];
-                echo "<br><br><br><br><br><br>";
-            }
-        ?>
     </div>
 </body>
 </html>

@@ -1,5 +1,9 @@
 body {
-    background: #3e4144;
+    /* background: #3e4144; */
+    background-repeat: no-repeat;
+    background-size: auto;
+    background-image: url('../img/head.jpg');
+    background-size: 100%;
 }
 .form {
     margin: 50px auto;

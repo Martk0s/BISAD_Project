@@ -35,18 +35,16 @@
 
         if(trim($username) && trim($password) && trim($email) && trim($first_name) && trim($last_name) && trim($telephone) && trim($address) == TRUE) {
             
-            $create_datetime = date("Y-m-d H:i:s");
-
             $check_sql="SELECT * FROM user_account WHERE username= '".$username."' ";
             $check_username= $conn->query($check_sql) or die($conn->error);
 
             if(!$check_username->num_rows){
                 $hash_password= password_hash($password, PASSWORD_DEFAULT);
-                $sql = "INSERT into `user_account` (username, password, first_name, last_name, email, telephone, address)
-                        VALUES ('$username', '" . md5($password) . "', '$first_name', '$last_name', '$email', '$telephone', '$address')";
-                $res=mysqli_query($conn,$sql);
-                    echo "<script> alert('Register Success');</script>";
-                    header("location: login.php");
+                // $sql = "INSERT into `user_account` (username, password, first_name, last_name, email, telephone, address)
+                //         VALUES ('$username', '" . md5($password) . "', '$first_name', '$last_name', '$email', '$telephone', '$address')";
+                // $res=mysqli_query($conn,$sql);
+                echo "<script> alert('Register Success');</script>";
+                header("location: login.php");
             }else{
                     echo "<script> alert('ชื่อผู้ใช้นี้ ถูกใช้ไปแล้ว! โปรดกรอกข้อมูลใหม่อีกครั้ง');</script>";
                     header("Refresh:0");
@@ -55,17 +53,34 @@
     }
 ?>
 <body>
+    <?php include("php/navbar.php");?>
     <form class="form" action="" id="Form" method="post" onsubmit="return checkdata()">
-        <h1 class="login-title">Registration</h1>
-        <input type="text" class="login-input" name="username" placeholder="Username" required />
-        <input type="password" class="login-input" name="password" placeholder="Password" required/>
-        <input type="text" class="login-input" name="email" placeholder="Email Adress" required/>
-        <input type="text" class="login-input" name="first_name" placeholder="First Name" required/>
-        <input type="text" class="login-input" name="last_name" placeholder="Last Name" required/>
-        <input type="text" class="login-input" name="telephone" placeholder="Telephone number" required/>
-        <input type="text" class="login-input" name="address" placeholder="Address" required/>
-        <input type="submit" name="submit" value="submit" class="login-button">
-        <p class="link">Already have an account?<br><br><a href="login.php">Login</a></p>
+        <div class="form-group">
+            <h1 class="login-title">Registration</h1>
+            <input type="text" class="form-control" name="username" placeholder="Username" required />
+        </div>
+        <div class="form-group">
+            <input type="password" class="form-control" name="password" placeholder="Password" required/>
+        </div>
+        <div class="form-group">
+            <input type="text" class="form-control" name="email" placeholder="Email Adress" required/>
+        </div>
+        <div class="form-group">
+            <input type="text" class="form-control" name="first_name" placeholder="First Name" required/>
+        </div>
+        <div class="form-group">
+            <input type="text" class="form-control" name="last_name" placeholder="Last Name" required/>
+        </div>
+        <div class="form-group">
+            <input type="text" class="form-control" name="telephone" placeholder="Telephone number" required/>
+        </div>
+        <div class="form-group">
+            <input type="text" class="form-control" name="address" placeholder="Address" required/>
+        </div>
+        <div class="form-group">
+            <button type="submit" name="submit" value="submit" class="btn btn btn-primary btn-block" >Login</button>
+        </div>
+            <p class="link">Already have an account?<br><a href="login.php">Login</a></p>
     </form>
 </body>
 </html>
