@@ -5,7 +5,6 @@
     <title>Registration</title>
     <link rel="stylesheet" href="./css/style.css"/>
 </head>
-<script src="./js/checkdata.js" type="text/javascript"></script>
 <?php
     include("./php/connect.php");
     // When form submitted, insert values into the database.
@@ -40,13 +39,22 @@
 
             if(!$check_username->num_rows){
                 $hash_password= password_hash($password, PASSWORD_DEFAULT);
-                // $sql = "INSERT into `user_account` (username, password, first_name, last_name, email, telephone, address)
-                //         VALUES ('$username', '" . md5($password) . "', '$first_name', '$last_name', '$email', '$telephone', '$address')";
-                // $res=mysqli_query($conn,$sql);
+                $sql = "INSERT into `user_account` (username, password, first_name, last_name, email, telephone, address)
+                        VALUES ('$username', '" . md5($password) . "', '$first_name', '$last_name', '$email', '$telephone', '$address')";
+                $res=mysqli_query($conn,$sql);
+                
+                $query = "SELECT `user_account_id` FROM `user_account` WHERE username='$username'";
+                $result = mysqli_query($conn, $query) or die(mysqli_error());
+                while($row = mysqli_fetch_array($result)) {
+                    $account_id = $row["user_account_id"];
+                }
+                
+                $sql = "INSERT INTO `cus_order` (account_id) VALUES ($account_id)";
+                $res=mysqli_query($conn,$sql);
                 echo "<script> alert('Register Success');</script>";
                 header("location: login.php");
             }else{
-                    echo "<script> alert('ชื่อผู้ใช้นี้ ถูกใช้ไปแล้ว! โปรดกรอกข้อมูลใหม่อีกครั้ง');</script>";
+                    echo "<script> alert('This username is unavailable! Please try again.');</script>";
                     header("Refresh:0");
                 }   
         }
@@ -54,7 +62,7 @@
 ?>
 <body>
     <?php include("php/navbar.php");?>
-    <form class="form" action="" id="Form" method="post" onsubmit="return checkdata()">
+    <form class="form" action="" id="Form" method="post">
         <div class="form-group">
             <h1 class="login-title">Registration</h1>
             <input type="text" class="form-control" name="username" placeholder="Username" required />
@@ -78,7 +86,7 @@
             <input type="text" class="form-control" name="address" placeholder="Address" required/>
         </div>
         <div class="form-group">
-            <button type="submit" name="submit" value="submit" class="btn btn btn-primary btn-block" >Login</button>
+            <button type="submit" name="submit" value="submit" class="btn btn btn-primary btn-block">Create Account</button>
         </div>
             <p class="link">Already have an account?<br><a href="login.php">Login</a></p>
     </form>

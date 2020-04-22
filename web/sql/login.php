@@ -42,7 +42,7 @@
                 }
             $user_account_id = $_SESSION["user_account_id"];
             $query = "SELECT * FROM `cus_order` WHERE account_id=" . $user_account_id . " AND `order_status`='pending'";
-            var_dump($query);
+            // var_dump($query);
             $result = mysqli_query($conn, $query) or die(mysqli_error());
             while($roww = mysqli_fetch_array($result)) {
                 $_SESSION["order_id"] = $roww["order_id"];

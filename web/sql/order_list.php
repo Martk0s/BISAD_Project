@@ -77,14 +77,14 @@
     <?php 
         include("php/connect.php");
         include("php/navbar.php");
-        var_dump($_SESSION); // Debug
+        // var_dump($_SESSION); // Debug
         $account_id = $_SESSION['user_account_id'];
         $shipping_address = $_SESSION['address'];
         $ord_id = $_SESSION['order_id'];
     ?>
     <?php
     if (isset($_POST['confirm'])){
-        echo "<script type='text/javascript'>alert('!! Purchase Confirm !!');</script>";
+        echo "<script type='text/javascript'>alert('Purchase Confirmed.');</script>";
         $price_list = "SELECT `price_each` FROM `cus_order_product` WHERE `order_id`= ". $ord_id;
         $result = mysqli_query($conn, $price_list) or die(mysqli_error());
         $total_amount = 0;
@@ -96,11 +96,16 @@
         $query = "UPDATE `cus_order` SET `order_date` ='". $date ."', `shipping_address` ='". $shipping_address ."', `order_status` = 'confirmed', `total_amount` =". $total_amount ." WHERE `order_status`='pending' AND `order_id` =". $ord_id ;     
         //$query = "UPDATE `cus_order` SET `order_date` =". $date ." AND `shipping_address` =". $shipping_address ." AND `order_status` = 'confirmed' AND `total_amount` =". $total_amount ." WHERE `account_id`=1 AND `order_status`='pending' ";          
         echo "<br>";
-        var_dump($query);
+        // var_dump($query);
         $result = mysqli_query($conn, $query) or die(mysqli_error());
-        $sql = "INSERT into `cus_order` (account_id)
-                    VALUES ($account_id)";
+        $sql = "INSERT INTO `cus_order` (account_id) VALUES ($account_id)";
         $res=mysqli_query($conn,$sql);
+        $query = "SELECT * FROM `cus_order` WHERE account_id=" . $account_id . " AND `order_status`='pending'";
+        // var_dump($query);
+        $result = mysqli_query($conn, $query) or die(mysqli_error());
+        while($roww = mysqli_fetch_array($result)) {
+            $_SESSION["order_id"] = $roww["order_id"];
+        }
     }
     ?>
 
@@ -191,7 +196,7 @@
 <center> /// CONFIRMED /// </center><br>
 <?php
     // cus-order-Prod [Prod_id]-> $XX -> product[Prod_id]
-    $query = "SELECT * FROM `cus_order` WHERE `account_id`=1 AND `order_status`='confirmed' "; // แก้ `account_id`
+    $query = "SELECT * FROM `cus_order` WHERE `account_id`=" . $account_id . " AND `order_status`='confirmed' "; // แก้ `account_id`
     //var_dump($query);
     $result = mysqli_query($conn, $query) or die(mysqli_error());
     while($row = mysqli_fetch_array($result)) {

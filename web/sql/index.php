@@ -60,7 +60,7 @@
     <?php
         include("php/connect.php");
         include("php/navbar.php");
-        var_dump($_SESSION); // Debug
+        // var_dump($_SESSION); // Debug
     ?>
 
     <!-- Scroll To Top Button -->

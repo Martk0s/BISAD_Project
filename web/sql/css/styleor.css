@@ -1,7 +1,7 @@
 body {
 	font-family: Arial;
 	color: #211a1a;
-	font-size: 0.9em;
+	/* font-size: 0.9em; */
 }
 
 #shopping-cart {
@@ -41,13 +41,13 @@ body {
 	padding: 2px 1px;
 }
 
-.tbl-cart {
+/* .tbl-cart {
 	font-size: 2em;
 }
 
 .tbl-cart th {
 	font-weight: normal;
-}
+} */
 
 .product-title {
 	margin-bottom: 20px;
@@ -73,8 +73,8 @@ body {
 }
 
 .cart-item-image {
-	width: 30px;
-    height: 30px;
+	width: 80px;
+    height: 80px;
     border-radius: 50%;
     border: #E0E0E0 1px solid;
     padding: 5px;
