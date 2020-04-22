@@ -86,69 +86,47 @@
         <h4 class="head page-headerb"><br>Order List</h4>
     </div>
     <br><br><br><br><br><br>
-    <?php
-    $query = "SELECT * FROM `product`";
-    $result = mysqli_query($conn, $query) or die(mysqli_error());
-    while($row = mysqli_fetch_array($result)) {
-    echo "<div class'=product-item'>";
 
-        echo "<form method='post' action=''>";
-        
-        echo "<div class='product-image'><img src='" . $row['product_image'] . "' class='shoes-image'></div>";
-        
-        echo "<div class='product-tile-footer'>";
-        
-        echo "<div class='product-title'><?php echo". $row['product_name'] . "?></div>";
-        
-        echo "<div class='product-price'><?php echo '$'" . $row['price'] ."?></div>";
-        
-        echo "<div class='cart-action'><input type='submit' value='remove' class='btnRemoveAction' /></div>";
-        
-        echo "</div>";
-        
-        echo "</form>";
-        
-    echo "</div>";
-    }
-    ?>
-
-
+<div id="shopping-cart">
 <?php
-
+    // cus-order-Prod [Prod_id]-> $XX -> product[Prod_id]
     $query = "SELECT * FROM `product`";
     $result = mysqli_query($conn, $query) or die(mysqli_error());
     while($row = mysqli_fetch_array($result)) {
 ?>
 
-<table class="tbl-cart" cellpadding="10" cellspacing="1">
+<table class="tbl-cart"  border ="1" cellpadding="10" cellspacing="1">
 <tbody>
 <tr>
-<th style="text-align:left;">Product Name</th>
-<th style="text-align:left;">Order ID</th>
-<th style="text-align:right;" width="10%">Order Time</th>
-<th style="text-align:right;" width="10%">Price</th>
-<th style="text-align:center;" width="5%">Remove</th>
+<th style="text-align:left;" >Product Name</th>
+<th style="text-align:left;" width="6%">Order ID</th>
+<th style="text-align:right;" width="7%">Price</th>
+<th style="text-align:right;" width="15%">Order Time</th>
+<th style="text-align:center;" width="6%">Remove</th>
 </tr>
 <?php		
-    foreach ($_SESSION["cart_item"] as $item){
-		// Quantity * Price
-        $item_price = $item["quantity"]*$item["price"];
-		?>
+    foreach ($result as $item){
+		?>  
 				<tr>
-				<!-- Picture and image -->
-				<td><img src="<?php echo $item["image"]; ?>" class="cart-item-image" /><?php echo $item["product_name"]; ?></td>
+				<!-- Picture -->
+				<td><img src="<?php echo $item["product_image"]; ?>" class="cart-item-image" /><?php echo $item["product_name"]; ?></td>
 				<td><?php echo $item["product_id"]; ?></td>
 				<!-- Price -->
 				<td  style="text-align:right;"><?php echo "$ ".$item["price"]; ?></td>
-				<!-- Unit Price number_format ,2 mean .00 -->
-				<td  style="text-align:right;"><?php echo "$ ". number_format($item_price,2); ?></td>
+				
+                <?php
+                    $query = "SELECT * FROM `cus_order_product`";
+                    $result = mysqli_query($conn, $query) or die(mysqli_error());
+                    while($row = mysqli_fetch_array($result)) {
+                        foreach ($result as $item){
+                            echo "<td  style='text-align:right;'> <?php echo" . $item['order_number'].";?> </td>";
+                        }
+                    }
+                ?>
 				<!-- Remove btn action remove&product code -->
-				<td style="text-align:center;"><a href="index.php?action=remove&id=<?php echo $item["product_id"]; ?>" class="btnRemoveAction"><img src="icon-delete.png" alt="Remove Item" /></a></td>
+				<td style="text-align:center;"><a href="" class="btnRemoveAction"><img src="img/icon-delete.png"  alt="Remove Item" /></a></td>
 				</tr>
 				<?php
-				// Set variable for total
-				$total_quantity += $item["quantity"];
-				$total_price += ($item["price"]*$item["quantity"]);
 		}
 		?>
 </tbody>
@@ -156,7 +134,7 @@
 <?php
 }
 ?>
-
+</div>
     <!--?php
     // include("php/connect.php");
     $query = "SELECT * FROM `product`";

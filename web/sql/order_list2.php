@@ -89,8 +89,9 @@
 
 <div id="shopping-cart">
 <?php
-
-    $query = "SELECT * FROM `product`";
+    // cus-order-Prod [Prod_id]-> $XX -> product[Prod_id]
+    $query = "SELECT * FROM `cus_order` WHERE `account_id`=1 AND `order_status`='pending' ";
+    var_dump($query);
     $result = mysqli_query($conn, $query) or die(mysqli_error());
     while($row = mysqli_fetch_array($result)) {
 ?>
@@ -98,19 +99,24 @@
 <table class="tbl-cart"  border ="1" cellpadding="10" cellspacing="1">
 <tbody>
 <tr>
+<th style="text-align:left;" width="7%">Product ID</th>
 <th style="text-align:left;" >Product Name</th>
-<th style="text-align:left;" width="6%">Order ID</th>
+<th style="text-align:center;" width="7%">Order ID</th>
 <th style="text-align:right;" width="7%">Price</th>
 <th style="text-align:right;" width="15%">Order Time</th>
 <th style="text-align:center;" width="6%">Remove</th>
 </tr>
 <?php		
-    foreach ($result as $item){
+    foreach ($result as $order){
+        $order_id = $order['order_id'];
+        $query = "SELECT * FROM `cus_order_product` WHERE `order_id`=" . $order_id;
+        $result = mysqli_query($conn, $query) or die(mysqli_error());
+        while($row = mysqli_fetch_array($result)) {
 		?>  
 				<tr>
 				<!-- Picture -->
 				<td><img src="<?php echo $item["product_image"]; ?>" class="cart-item-image" /><?php echo $item["product_name"]; ?></td>
-				<td><?php echo $item["product_id"]; ?></td>
+				<td style="text-align:center;"><?php echo $item["product_id"]; ?></td>
 				<!-- Price -->
 				<td  style="text-align:right;"><?php echo "$ ".$item["price"]; ?></td>
 				
@@ -127,6 +133,7 @@
 				<td style="text-align:center;"><a href="" class="btnRemoveAction"><img src="img/icon-delete.png"  alt="Remove Item" /></a></td>
 				</tr>
 				<?php
+            }
 		}
 		?>
 </tbody>
