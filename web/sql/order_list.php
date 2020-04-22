@@ -77,6 +77,22 @@
     <?php 
         include("php/connect.php");
     ?>
+    <?php
+    function confirm(){
+
+        echo "<script type='text/javascript'>alert('!! Purchase Confirm !!');</script>";
+        //ที่อยู่
+        $shipping_address = "SELECT `address` FROM `user_account` WHERE `account_id`=1 "; // แก้ `account_id`
+        //รวมจำนวนเงิน        
+        $total_amount = "SELECT `price_each` FROM `cus_order_product` WHERE `order_id`=4 GROUP BY order_id";
+        //เวลา
+        $date = date('Y-m-d H:i:s');
+        
+        $query = "UPDATE `cus_order` SET `order_date` =". $date ." AND `shipping_address` =". $shipping_address ." AND `order_status` = 'confirmed' AND `total_amount` =". $total_amount ." WHERE `account_id`=1 AND `order_status`='pending' "; // แก้ `account_id`      
+        var_dump($query);
+        $result = mysqli_query($conn, $query) or die(mysqli_error());
+    }
+    ?>
 
     <!-- Scroll To Top Button -->
     <button onclick="topFunction()" id="myBtn" title="Go to top"><i class="fas fa-chevron-up"></i></button>
@@ -85,12 +101,14 @@
     <div class = "container-classB">
         <h4 class="head page-headerb"><br>Order List</h4>
     </div>
-    <br><br><br><br><br><br>
+    <br><br><br><br>
 
+
+<!--/// PENDING INPROGRESS ///-->
 <div id="shopping-cart">
+<center> /// PENDING INPROGRESS /// </center><br>
 <?php
-    // cus-order-Prod [Prod_id]-> $XX -> product[Prod_id]
-    $query = "SELECT * FROM `cus_order` WHERE `account_id`=1 AND `order_status`='pending' ";
+    $query = "SELECT * FROM `cus_order` WHERE `account_id`=1 AND `order_status`='pending' "; // แก้ `account_id`
     //var_dump($query);
     $result = mysqli_query($conn, $query) or die(mysqli_error());
     while($row = mysqli_fetch_array($result)) {
@@ -149,10 +167,84 @@
 		        ?>
 </tbody>
 </table>
+<!-- /// PURCHASE CONFIRM /// -->
+<form action="" id="Form" method="post">
+<button type="input" class="btn btn-success update-btn" name="confirm" id="confirm" value="submit" class="login-button"><i class="fas fa-cart-plus"></i> Purchase </button>
+</form>
+<!-- /// PURCHASE CONFIRM /// -->
 <?php
 }
 ?>
 </div>
+<!--/// PENDING INPROGRESS ///-->
+<!--/// CONFIRMED INPROGRESS ///-->
+<div id="shopping-cart">
+<center> /// CONFIRM /// </center><br>
+<?php
+    // cus-order-Prod [Prod_id]-> $XX -> product[Prod_id]
+    $query = "SELECT * FROM `cus_order` WHERE `account_id`=1 AND `order_status`='confirmed' "; // แก้ `account_id`
+    //var_dump($query);
+    $result = mysqli_query($conn, $query) or die(mysqli_error());
+    while($row = mysqli_fetch_array($result)) {
+?>
+
+<table class="tbl-cart" cellpadding="10" cellspacing="1">
+<tbody>
+<tr>
+<th style="text-align:center;" width="7%">Order ID</th>
+<th style="text-align:left;">Product Name</th>
+<th style="text-align:center;" width="7%">Product ID</th>
+<th style="text-align:right;" width="7%">Price</th>
+<th style="text-align:center;" width="15%">Order Time</th>
+</tr>
+<?php		
+    foreach ($result as $order){
+        ?>
+        <?php
+        $order_id = $order['order_id'];
+        $query = "SELECT * FROM `cus_order_product` WHERE `order_id`=" . $order_id;
+        $result = mysqli_query($conn, $query) or die(mysqli_error());
+        while($row = mysqli_fetch_array($result)) {
+            foreach ($result as $prod){
+		?>      
+				<tr>			
+                <?php                
+                    $prod_id = $prod['product_id'];
+                    $query = "SELECT * FROM `product` WHERE `product_id` =". $prod_id;
+                    $result = mysqli_query($conn, $query) or die(mysqli_error());
+                    while($row = mysqli_fetch_array($result)) {
+                        foreach ($result as $item){ ?>
+                            <!-- Order ID -->
+                            <td style="text-align:center;"><?php echo $order["order_id"]; ?></td>
+                            <!-- Picture -->
+				            <td><img src="<?php echo $item["product_image"]; ?>" class="cart-item-image" /><?php echo $item["product_name"]; ?></td>
+				            <td style="text-align:center;"><?php echo $item["product_id"]; ?></td>
+				            <!-- Price -->
+				            <td  style="text-align:right;"><?php echo "$" . $item["price"]; ?></td>
+                            <td style="text-align:center;"><?php echo $prod["order_number"]; ?></td>
+                        <?php
+                        }
+                    }
+                ?>
+				<!-- Remove btn action remove&product code -->
+                <?php 
+                // echo "<br>";
+                // var_dump($prod['order_number']); 
+                ?> 
+                </tr>
+				<?php
+            }
+        }
+    }
+		        ?>
+</tbody>
+</table>
+<?php
+}
+?>
+</div>
+<!--/// CONFIRMED INPROGRESS ///-->
+
 </body>
 <script>
 // -=[Scroll To Top Button script]=- //
