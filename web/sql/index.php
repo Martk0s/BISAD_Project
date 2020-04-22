@@ -55,8 +55,8 @@
         right: 25;
     }
 </style>
-<body onload="showAllProduct()">
-    
+<body>
+
     <?php include("php/connect.php");?>
 
     <!-- Scroll To Top Button -->
@@ -161,106 +161,107 @@
             <!-- BUTTON -->
             <br>
             <div class="row" style="margin-left: 100; margin-right: 100;">
-                <button type="input" class="btn btn-secondary btn-block" name="filter"><i class="fas fa-filter"></i> Filter</i></button>
+                <button type="input" id="filter" class="btn btn-secondary btn-block" name="filter" onclick="delet_this()"><i class="fas fa-filter"></i> Filter</i></button>
             <!-- END BUTTON -->
             </div>
         </form>
     </div>
     
     <?php
+    error_reporting(~E_NOTICE );
         $filter = "";
-        if(isset($_POST['filter'])) {
-            if($_POST['brand'] != ""){
-                $filter = $filter . "brand_id=" . $_POST['brand'];
-            }
-
-            if($_POST['type'] != ""){
-                if(strlen($filter)){
-                    $filter = $filter . " AND ";
-                }
-                $filter = $filter . "product_type='" . $_POST['type'] . "'";
-            }
-
-            if($_POST['color'] != ""){
-                if(strlen($filter)){
-                    $filter = $filter . " AND ";
-                }
-                $filter = $filter . "color='" . $_POST['color'] . "'";
-            }
-
-            // error_reporting(~E_NOTICE );
-            if(array_key_exists('Male', $_POST)){
-                if(strlen($filter)){
-                    $filter = $filter . " AND ";
-                }
-                $filter = $filter . "gender='" . $_POST['Male'] . "'";
-            }
-
-            if(array_key_exists('Female', $_POST)){
-                if(strlen($filter)){
-                    $filter = $filter . " AND ";
-                }
-                $filter = $filter . "gender='" . $_POST['Female'] . "'";
-            }
-            if(strlen($filter)){
-                $query = "SELECT * FROM `product` WHERE " . $filter;
-            }else{
-                $query = "SELECT * FROM `product`";
-            }
-            
-            var_dump($query);
-            $result = mysqli_query($conn, $query) or die(mysqli_error());
-            while($row = mysqli_fetch_array($result)) {
-                echo "<div class='container py-3'>";
-                echo "<div class='card'>";
-                echo "<div class='row'>";
-                echo "<div class='col-md-4'>";
-                echo "<img src='" . $row['product_image'] . "' class='shoes-image'>";
-                
-                echo "</div>";
-                echo "<div class='col-md-8 px-3 py-3'>";
-                echo "<div class='card-block px-3'>";
-                $brand_id = $row["brand_id"];
-                $query = "SELECT * FROM `brand` WHERE brand_id='$brand_id'";
-                $brand_id = mysqli_query($conn, $query) or die(mysqli_error());
-                while($brand_name = mysqli_fetch_array($brand_id)) {
-                    echo "<h2 class='card-title'>" . $brand_name["brand_name"] . "</h2>";//brand name
-                }
-                echo "<p class='card-text'> <b>Model</b><br>&ensp;&ensp;" .$row["product_name"] . "</p>";//name
-                echo "<p class='card-text'> <b>Type</b><br>&ensp;&ensp;" .$row["product_type"] . "</p>";//type
-                echo "<hr>";
-                echo "<p class='card-text'> <b>Gender</b><br>&ensp;&ensp;" .$row["gender"] . "</p>";//gender
-                echo "<p class='card-text'>";
-
-                $size_list = explode(",", $row["size_uk"]);
-                echo "<b>Size (UK) &ensp;</b>";//size (UK)
-                foreach ($size_list as $UK) {
-                    echo $UK . "&ensp;&ensp;";
-                }
-                echo "<br>";
-                echo "</p>";
-
-                echo "<div class='container'>";
-                echo "<div class='row'>";
-                echo "<p class='card-text'><b>Color&ensp;</b></p>";
-                echo "<div class='color-box " . $row["color"] . "'></div>";//color box
-                echo "<p class='card-text'>" . $row["color"] . "</p>";//color text
-                echo "</div>";
-                echo "</div>";
-                echo "<h4 style='color: #00a2e2;'>$ " . $row["price"] . "</h4>";//price ($)
-                echo "<div>";
-                echo '<form action="update.php" method="POST">
-                <input type="hidden" name="_id" value="' . $row["product_id"] . '">
-                <button type="input" class="btn btn-success update-btn"><i class="fas fa-cart-plus"></i> Add to cart</button>
-                </form>';
-                echo "</div>";
-                echo "</div>";
-                echo "</div>";
-                echo "</div>";
-                echo "</div>";
-                echo "</div>";
-            }
+        // if(isset($_POST['filter'])) {
+        if($_POST['brand'] != ""){
+            $filter = $filter . "brand_id=" . $_POST['brand'];
         }
+
+        if($_POST['type'] != ""){
+            if(strlen($filter)){
+                $filter = $filter . " AND ";
+            }
+            $filter = $filter . "product_type='" . $_POST['type'] . "'";
+        }
+
+        if($_POST['color'] != ""){
+            if(strlen($filter)){
+                $filter = $filter . " AND ";
+            }
+            $filter = $filter . "color='" . $_POST['color'] . "'";
+        }
+
+        if(array_key_exists('Male', $_POST)){
+            if(strlen($filter)){
+                $filter = $filter . " AND ";
+            }
+            $filter = $filter . "gender='" . $_POST['Male'] . "'";
+        }
+
+        if(array_key_exists('Female', $_POST)){
+            if(strlen($filter)){
+                $filter = $filter . " AND ";
+            }
+            $filter = $filter . "gender='" . $_POST['Female'] . "'";
+        }
+        if(strlen($filter)){
+            $query = "SELECT * FROM `product` WHERE " . $filter;
+        }else{
+            $query = "SELECT * FROM `product`";
+        }
+        
+        // var_dump($query); // Debug
+        $result = mysqli_query($conn, $query) or die(mysqli_error());
+        while($row = mysqli_fetch_array($result)) {
+            echo "<div class='container py-3'>";
+            echo "<div class='card'>";
+            echo "<div class='row'>";
+            echo "<div class='col-md-4'>";
+            echo "<img src='" . $row['product_image'] . "' class='shoes-image'>";
+            
+            echo "</div>";
+            echo "<div class='col-md-8 px-3 py-3'>";
+            echo "<div class='card-block px-3'>";
+            $brand_id = $row["brand_id"];
+            $query = "SELECT * FROM `brand` WHERE brand_id='$brand_id'";
+            $brand_id = mysqli_query($conn, $query) or die(mysqli_error());
+            while($brand_name = mysqli_fetch_array($brand_id)) {
+                echo "<h2 class='card-title'>" . $brand_name["brand_name"] . "</h2>";//brand name
+            }
+            echo "<p class='card-text'> <b>Model</b><br>&ensp;&ensp;" .$row["product_name"] . "</p>";//name
+            echo "<p class='card-text'> <b>Type</b><br>&ensp;&ensp;" .$row["product_type"] . "</p>";//type
+            echo "<hr>";
+            echo "<p class='card-text'> <b>Gender</b><br>&ensp;&ensp;" .$row["gender"] . "</p>";//gender
+            echo "<p class='card-text'>";
+
+            $size_list = explode(",", $row["size_uk"]);
+            echo "<b>Size (UK) &ensp;</b>";//size (UK)
+            foreach ($size_list as $UK) {
+                echo $UK . "&ensp;&ensp;";
+            }
+            echo "<br>";
+            echo "</p>";
+
+            echo "<div class='container'>";
+            echo "<div class='row'>";
+            echo "<p class='card-text'><b>Color&ensp;</b></p>";
+            echo "<div class='color-box " . $row["color"] . "'></div>";//color box
+            echo "<p class='card-text'>" . $row["color"] . "</p>";//color text
+            echo "</div>";
+            echo "</div>";
+            echo "<h4 style='color: #00a2e2;'>$ " . $row["price"] . "</h4>";//price ($)
+            echo "<div>";
+            echo '<form action="update.php" method="POST">
+            <input type="hidden" name="_id" value="' . $row["product_id"] . '">
+            <button type="input" class="btn btn-success update-btn"><i class="fas fa-cart-plus"></i> Add to cart</button>
+            </form>';
+            echo "</div>";
+            echo "</div>";
+            echo "</div>";
+            echo "</div>";
+            echo "</div>";
+            echo "</div>";
+        }
+        // }
+
     ?>
 
 </body>
@@ -287,10 +288,5 @@ function topFunction() {
   document.documentElement.scrollTop = 0;
 }
 // -=[End of Scroll To Top Button script]=- //
-</script>
-<script>
-    function showAllProduct(){
-        <?php include_once("php/product.php");//แสดงรายการสินค้าทั้งหมด?>
-    }
 </script>
 </html>
