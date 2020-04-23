@@ -77,6 +77,7 @@
     <?php 
         include("php/connect.php");
         include("php/navbar.php");
+        include("php/auth_session.php");
         // var_dump($_SESSION); // Debug
         $account_id = $_SESSION['user_account_id'];
         $shipping_address = $_SESSION['address'];

@@ -1,6 +1,7 @@
 <?php
 
 include("php/connect.php"); // Using database connection file here
+include("php/auth_session.php");
 
 // if(isset($_GET['order_number'])){
 //     $order_number = $_GET['order_number'];

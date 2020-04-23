@@ -39,6 +39,7 @@
                 $_SESSION["last_name"] = $row["last_name"];
                 $_SESSION["address"] = $row["address"];
                 $_SESSION["telephone"] = $row["telephone"];
+                $_SESSION["email"] = $row["email"];
                 }
             $user_account_id = $_SESSION["user_account_id"];
             $query = "SELECT * FROM `cus_order` WHERE account_id=" . $user_account_id . " AND `order_status`='pending'";
