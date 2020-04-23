@@ -256,6 +256,7 @@
                     <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" id="ccnumber" name="ccnumber" onblur="check_ccnumber();" required />
                     </div>
                 </div>
+
                 <div class="container-classs">
                     <div class="input-group mb-3">
                     <div class="input-group-prepend">
@@ -263,14 +264,15 @@
                     </div>
                     <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" id="cvv" name="cvv" onblur="check_cvv();" required /><br>
                     </div>
-</div>
-<div class="col-4">
-<div class="input-group-prepend">
-<span class="input-group-text" id="inputGroup-sizing-default" class="col-2 col-form-label">Expiration</span>
-<input class="form-control" type="month" value="2020-01" id="example-month-input">
-<div class="col-10">
-</div>
-</div>
+                </div>
+            
+                <div class="container-classm">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="inputGroup-sizing-default">Expiration</span>
+                            <input class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" type="month" value="2020-01" id="example-month-input">
+                        </div>                  
+                    </div>
                 </div><br><br>
         </div>
         <!-- /// CONFIRM FORM /// -->
