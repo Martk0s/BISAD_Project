@@ -54,6 +54,9 @@
         position: absolute;
         right: 25;
     }
+    #body {
+        background-color: #f8f9fa;
+    }
 </style>
 <body>
     

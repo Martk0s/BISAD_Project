@@ -29,7 +29,7 @@
         $telephone    = stripslashes($_REQUEST['telephone']);
         $telephone    = mysqli_real_escape_string($conn, $telephone);
         
-        $address = stripslashes($_REQUEST['address']);
+        $address = stripslashes($_REQUEST['address0']);
         $address = mysqli_real_escape_string($conn, $address);
 
         if(trim($username) && trim($password) && trim($email) && trim($first_name) && trim($last_name) && trim($telephone) && trim($address) == TRUE) {
@@ -65,25 +65,25 @@
     <form class="form" action="" id="Form" method="post">
         <div class="form-group">
             <h1 class="login-title">Registration</h1>
-            <input type="text" class="form-control" name="username" placeholder="Username" required />
+            <input type="text" class="form-control" name="username" id="username" onblur="check_username()" placeholder="Username" required />
         </div>
         <div class="form-group">
-            <input type="password" class="form-control" name="password" placeholder="Password" required/>
+            <input type="password" class="form-control" name="password" id="password" onblur="check_password()" placeholder="Password" required/>
         </div>
         <div class="form-group">
-            <input type="text" class="form-control" name="email" placeholder="Email Adress" required/>
+            <input type="text" class="form-control" name="email" id="email" onblur="check_email()" placeholder="Email Adress" required/>
         </div>
         <div class="form-group">
-            <input type="text" class="form-control" name="first_name" placeholder="First Name" required/>
+            <input type="text" class="form-control" name="first_name" id="first_name" onblur="check_first_name()" placeholder="First Name" required/>
         </div>
         <div class="form-group">
-            <input type="text" class="form-control" name="last_name" placeholder="Last Name" required/>
+            <input type="text" class="form-control" name="last_name" id="last_name" onblur="check_last_name()" placeholder="Last Name" required/>
         </div>
         <div class="form-group">
-            <input type="text" class="form-control" name="telephone" placeholder="Telephone number" required/>
+            <input type="text" class="form-control" name="telephone" id="telephone" onblur="check_Tele()" placeholder="Telephone number" required/>
         </div>
         <div class="form-group">
-            <input type="text" class="form-control" name="address" placeholder="Address" required/>
+            <input type="text" class="form-control" name="address0" id="address0" onblur="check_address0()" placeholder="Address" required/>
         </div>
         <div class="form-group">
             <button type="submit" name="submit" value="submit" class="btn btn btn-primary btn-block">Create Account</button>
@@ -91,4 +91,85 @@
             <p class="link">Already have an account?<br><a href="login.php">Login</a></p>
     </form>
 </body>
+<script>
+    function check_username() {
+        var elem = document.getElementById('username').value;
+        if (elem.length != 0) {
+            if (elem.match(/^[0-9]+$/i)) {
+                alert("Only A-Z, a-z letters and numeric can be entered.")
+                document.getElementById('username').value = "";
+            }
+            
+            if (elem.length < 4 || elem.length > 20) {
+                alert("The length must be between 4-32 characters.")
+                document.getElementById('username').value = "";
+            }
+        }
+    }
+    
+    function check_password() {
+        var elem = document.getElementById('password').value;
+        if (elem.length != 0) {
+            if (elem.length < 4 || elem.length > 20) {
+                alert("The length must be between 4-32 characters.")
+                document.getElementById('password').value = "";
+            }
+        }
+    }
+    
+    function check_email() {
+        var elem = document.getElementById('email').value;
+        if (elem.length != 0){
+            if (elem.length > 200) {
+                alert("200 character maximum.")
+                document.getElementById('email').value = "";
+            }
+        }
+    }
+
+    function check_address0() {
+        var elem = document.getElementById('address0').value;
+        if (elem.length != 0) {
+            if (elem.length > 200) {
+                alert("200 character maximum.")
+                document.getElementById('address0').value = "";
+            }
+        }
+    }
+    
+    function check_first_name() {
+        var elem = document.getElementById('first_name').value;
+        if (elem.length != 0) {
+            if (elem.length > 200) {
+                alert("200 character maximum.")
+                document.getElementById('first_name').value = "";
+            }
+        }
+    }
+    
+    function check_last_name() {
+        var elem = document.getElementById('last_name').value;
+        if (elem.length != 0) {
+            if (elem.length > 200) {
+                alert("200 character maximum.")
+                document.getElementById('last_name').value = "";
+            }
+        }
+    }
+
+    function check_Tele() {
+        var elem = document.getElementById('telephone').value;
+        if (elem.length != 0) {
+            if (!elem.match(/^[0-9]+$/i)) {
+                alert("Numeric only.")
+                document.getElementById('telephone').value = "";
+            }else{
+                if (elem.length < 9 || elem.length > 10) {
+                    alert("Invalid phone number.")
+                    document.getElementById('telephone').value = "";
+                }
+            }
+        }
+    }
+</script>
 </html>
