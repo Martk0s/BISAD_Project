@@ -174,7 +174,7 @@
     <!-- echo Total quantity and Price -->
     <td align="center"><strong><?php echo $total_quantity; ?></strong></td>
     <td align="right"><strong><?php echo "$" .$total_amount; ?></strong></td>
-    <td></td>
+    <td></td><td></td>
 </tr>
 </tbody>
 </table>

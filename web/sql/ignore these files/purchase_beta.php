@@ -63,7 +63,7 @@
 
     .container-classxxx {
     width: 100%;
-    height: 300px;
+    height: 400px;
     border-radius: 2px dashed #333;
     position: relative;
     border: 3px;
@@ -71,7 +71,7 @@
 
     .container-classxx {
     width: 100%;
-    height: 150px;
+    height: 200px;
     border-radius: 2px dashed #333;
     position: relative;
     border: 3px;
@@ -79,7 +79,7 @@
 
     .container-classxl {
     width: 50%;
-    height: 150px;
+    height: 200px;
     border-radius: 2px dashed #333;
     position: relative;
     border: 3px;
@@ -124,18 +124,17 @@
     .update-btn {
         position: absolute;
         /* right: 125; */
-        right:0;
+        right: 42;
     }
 
     .update-btnn {
         position: absolute;
         /* right: 125; */
-        right:15;
+        right: 210;
     }
 
     .update-btnnn {
         position: absolute;
-        right:160;
         /* right: 125; */
     }
 
@@ -149,9 +148,8 @@
         include("php/connect.php");
         include("php/navbar.php");
         include("php/auth_session.php");
-        //var_dump($_SESSION);
+        var_dump($_SESSION);
 
-        $username = $_SESSION['username'];
         $account_id = $_SESSION['user_account_id'];
         $first_name = $_SESSION['first_name'];
         $last_name = $_SESSION['last_name'];
@@ -179,9 +177,17 @@
         }
     ?>
 
+    <!--?php
+        if (isset($_POST['Change_address'])){
+            echo "<script type='text/javascript'>alert('Address has changed.');</script>";
+            header("refresh: 0");
+        }
+    ?-->
+
     <?php
 
         if (isset($_POST['confirm'])){
+            echo "<script type='text/javascript'>alert('Purchase Confirmed.');</script>";
             $price_list = "SELECT `price_each` FROM `cus_order_product` WHERE `order_id`= ". $ord_id;
             $result = mysqli_query($conn, $price_list) or die(mysqli_error());
             $total_amount = 0;
@@ -189,12 +195,9 @@
                 $total_amount += $row['price_each'];
             }
             //เวลา
-            if (strlen($_POST['new_address'])){
-                $shipping_address = $_POST['new_address'];
-            }
-
             $date = date('Y-m-d H:i:s');
-            $query = "UPDATE `cus_order` SET `order_date` ='". $date ."', `shipping_address` ='". $shipping_address ."', `order_status` = 'confirmed', `total_amount` =". $total_amount ." WHERE `order_status`='pending' AND `order_id` =". $ord_id ; 
+            $query = "UPDATE `cus_order` SET `order_date` ='". $date ."', `shipping_address` ='". $shipping_address ."', `order_status` = 'confirmed', `total_amount` =". $total_amount ." WHERE `order_status`='pending' AND `order_id` =". $ord_id ;     
+            //$query = "UPDATE `cus_order` SET `order_date` =". $date ." AND `shipping_address` =". $shipping_address ." AND `order_status` = 'confirmed' AND `total_amount` =". $total_amount ." WHERE `account_id`=1 AND `order_status`='pending' ";          
             echo "<br>";
             $result = mysqli_query($conn, $query) or die(mysqli_error());
             $sql = "INSERT INTO `cus_order` (account_id) VALUES ($account_id)";
@@ -205,9 +208,7 @@
             while($roww = mysqli_fetch_array($result)) {
                 $_SESSION["order_id"] = $roww["order_id"];
             }
-            echo "<script type='text/javascript'>alert('Purchase Confirmed.'); 
-                              window.location.replace('index.php');</script>";
-            
+
         }
     ?>
     
@@ -227,15 +228,12 @@
     <div class="container-classxx row">
         <!-- /// USER DATA /// -->
         <div class="container-classxl col">
-            Username   | <?php echo $username ?> <br>
-            First Name | <?php echo $first_name ?> <br>
-            Last Name  | <?php echo $last_name ?> <br>
-            Email      | <?php echo $email ?> <br>
+            1-1
         </div>
         <!-- /// USER DATA /// -->
         <!-- /// USER ADDRESS /// -->
         <div class="container-classxr col">
-            Current Address | <?php echo $address ?>
+            1-2
         </div>
         <!-- /// USER ADDRESS /// -->
     </div>
@@ -261,18 +259,20 @@
                     <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" id="cvv" name="cvv" onblur="check_cvv();" required /><br>
                     </div>
                 </div><br><br>
+                <button type="input" class="btn btn-success update-btnnn" name="confirm" id="confirm" value="submit" class="login-button"><i class="fas fa-cart-plus"></i> Confirm </button>
+            </form>
         </div>
         <!-- /// CONFIRM FORM /// -->
         <!-- /// CHANGE ADDRESS FORM /// -->
         <div class="container-classxr col">
+            <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
             <div class="input-group">
             <div class="input-group-prepend">
                 <span class="input-group-text">Address</span>
             </div>
-                <textarea class="form-control" aria-label="With textarea" id="new_address" name="new_address" rows="5" cols="40" onblur="check_address()"></textarea>
+                <textarea class="form-control" aria-label="With textarea" name="address" rows="5" cols="40" onblur="check_address()"></textarea>
             </div><br>
-            <button type="input" class="btn btn-success update-btnnn" name="confirm" id="confirm" value="submit" class="login-button"><i class="fas fa-cash-register"></i> Confirm </button>
-            <a href="order_list.php"><button type="input" class="btn btn-warning update-btnn" class="login-button"><i class="fas fa-shopping-cart"></i> Back to Cart </button></a>
+            <button type="input" class="btn btn-success update-btn" name="Change_address" id="confiChange_addressrm" value="Change_address" class="login-button"><i class="fas fa-cart-plus"></i> Change Address </button>
             </form>
         <!-- /// CHANGE ADDRESS FORM /// -->
         </div>
@@ -329,6 +329,10 @@
                 ?>
 				<!-- Remove btn action remove&product code -->
 				<td style="text-align:center;"><a href="delete_cart.php?id=<?php echo $prod['order_number'];?>"><img src="img/icon-delete.png"  alt="Remove Item" /></a></td>
+                <?php 
+                // echo "<br>";
+                // var_dump($prod['order_number']); 
+                ?> 
                 </tr>
 				<?php
             }
@@ -348,7 +352,7 @@
 <!-- /// PURCHASE CONFIRM /// -->
 
 <br>
-<!-- <a href="order_list.php"><button type="input" class="btn btn-success update-btn" class="login-button"><i class="fas fa-cart-plus"></i> Back to Cart </button></a> -->
+<a href="order_list.php"><button type="input" class="btn btn-success update-btn" class="login-button"><i class="fas fa-cart-plus"></i> Back to Cart </button></a>
 <!-- /// PURCHASE CONFIRM /// -->
 <?php
 }
@@ -358,40 +362,24 @@
 <script>
     function check_ccnumber() {
         var elem = document.getElementById('ccnumber').value;
-        if (elem.length != 0){
-            if (!elem.match(/^[0-9]+$/i)) {
-                alert("Numeric only.")
-                document.getElementById('ccnumber').value = "";
-            }
-    
-            if (elem.length != 16) {
-                alert("Credit card must be 16 digit.")
-            }
+        if (!elem.match(/^[0-9]+$/i)) {
+            alert("กรอกได้เฉพาะตัวเลขเท่านั้น")
+            document.getElementById('ccnumber').value = "";
+        }
+        if (elem.length != 16) {
+            alert("หมายเลขบัตรไม่ครบ 16 หลัก")
         }
     }
 
-    
     function check_cvv() {
         var elem = document.getElementById('cvv').value;
-        if (elem.length != 0){
-            if (!elem.match(/^[0-9]+$/i)) {
-                alert("Numeric only.")
-                document.getElementById('cvv').value = "";
-            }
-    
-            if (elem.length != 3) {
-                alert("CVV number must be 3 digit.")
-            }
+        if (!elem.match(/^[0-9]+$/i)) {
+            alert("กรอกได้เฉพาะตัวเลขเท่านั้น")
+            document.getElementById('cvv').value = "";
         }
-    }
 
-    function check_address() {
-        var elem = document.getElementById('address').value;
-        if (elem.length != 0) {
-            if (elem.length > 200) {
-                alert("200 character maximum.")
-                document.getElementById('address').value = "";
-            }
+        if (elem.length != 3) {
+            alert("หมายเลข cvv ไม่ครบ 3 หลัก")
         }
     }
 
