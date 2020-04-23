@@ -13,8 +13,8 @@
     session_start();
 
     // Check if the user is already logged in, if yes then redirect him to welcome page
-    if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true){
-        header("location: ./php/dashboard.php");
+    if(isset($_SESSION["user_account_id"])){
+        header("location: index.php");
         exit;
     }
 
@@ -34,21 +34,34 @@
             // // Redirect to user dashboard page
 
             while($row = mysqli_fetch_array($result)) {
-                $_SESSION["user_account_id"] = $row["user_account_id"];
-                $_SESSION["first_name"] = $row["first_name"];
-                $_SESSION["last_name"] = $row["last_name"];
-                $_SESSION["address"] = $row["address"];
-                $_SESSION["telephone"] = $row["telephone"];
-                $_SESSION["email"] = $row["email"];
+                $_SESSION["user_account_id"] = $row["user_account_id"];// get user id
+                $_SESSION["first_name"] = $row["first_name"];// get first name
+                $_SESSION["last_name"] = $row["last_name"];// get last name
+                $_SESSION["address"] = $row["address"];// get address
+                $_SESSION["telephone"] = $row["telephone"];// get tel. no.
+                $_SESSION["email"] = $row["email"];// get email
+                $_SESSION["account_type"] = $row["account_type"];// get account type
                 }
             $user_account_id = $_SESSION["user_account_id"];
             $query = "SELECT * FROM `cus_order` WHERE account_id=" . $user_account_id . " AND `order_status`='pending'";
             // var_dump($query);
             $result = mysqli_query($conn, $query) or die(mysqli_error());
             while($roww = mysqli_fetch_array($result)) {
-                $_SESSION["order_id"] = $roww["order_id"];
+                $_SESSION["order_id"] = $roww["order_id"];// get currenty order id
             }
-            header("Location: index.php");
+            $quantity = "SELECT count(`order_id`) FROM `cus_order_product` WHERE `order_id`= ". $_SESSION["order_id"];
+            var_dump($quantity);
+            $resultt = mysqli_query($conn, $quantity) or die(mysqli_error());
+            while($row = mysqli_fetch_array($resultt)) {
+                foreach ($row as $total){
+                    $_SESSION['total_quantity'] = $total;// get total item(s) in cart
+                }
+            }
+            if ($_SESSION["account_type"] == "staff") {
+                header("Location: check_cus_order_(for_staff).php");
+            }else{
+                header("Location: index.php");
+            }
         } else {
             echo "<div class='form'>
                   <h3>Incorrect Username <br>or<br> Password.</h3><br/>

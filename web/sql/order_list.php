@@ -24,7 +24,7 @@
     margin: 0 auto;
     }
     .container-classb {
-    background-image: url('./img/head.jpg');
+    background-image: url('./img/background.jpg');
     background-repeat: no-repeat;
     background-position: top;
     width: 48%;
@@ -37,7 +37,7 @@
     }
     .page-header {
         font-size: 80px;
-        color:white;
+        color: white;
         text-align: center;
     }
     .page-headerb {
@@ -104,7 +104,7 @@
     <!-- END of Scroll To Top Button -->
 
     <div class = "container-classB">
-        <h4 class="head page-headerb"><br>Order List</h4>
+        <h4 class="head page-headerb"><br>ORDER LIST</h4>
     </div>
     <br><br><br><br>
 
@@ -180,7 +180,13 @@
 </table>
 <!-- /// PURCHASE CONFIRM /// -->
 <br>
-<a href="purchase.php"><button type="input" class="btn btn-success update-btn" name="confirm" id="confirm" value="submit" class="login-button"><i class="fas fa-cart-plus"></i> Purchase </button></a>
+<?php 
+    if ($total_quantity == 0) {
+        echo '<a href="purchase.php"><button type="input" class="btn btn-success update-btn" name="confirm" id="confirm" value="submit" class="login-button" disabled><i class="fas fa-shopping-cart"></i> Purchase </button></a>';
+    }else{
+        echo '<a href="purchase.php"><button type="input" class="btn btn-success update-btn" name="confirm" id="confirm" value="submit" class="login-button"><i class="fas fa-shopping-cart"></i> Purchase </button></a>';
+    }
+?>
 <!-- /// PURCHASE CONFIRM /// -->
 <?php
 }

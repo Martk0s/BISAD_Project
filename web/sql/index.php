@@ -255,9 +255,15 @@
             echo "<div>";
             echo '<form action="" method="POST">
             <input type="hidden" name="_id" value="' . $row["product_id"] . '">
-            <input type="hidden" name="price" value="' . $row["price"] . '">
-            <button type="input" id="add_to_cart" name="add_to_cart" class="btn btn-success update-btn"><i class="fas fa-cart-plus"></i> Add to cart</button>
-            </form>';
+            <input type="hidden" name="price" value="' . $row["price"] . '">';
+
+            if ($_SESSION['account_type'] == 'staff'){
+               echo '<button type="input" id="add_to_cart" name="add_to_cart" class="btn btn-success update-btn" disabled><i class="fas fa-cart-plus"></i> Add to cart</button>';
+            }else{
+                echo '<button type="input" id="add_to_cart" name="add_to_cart" class="btn btn-success update-btn"><i class="fas fa-cart-plus"></i> Add to cart</button>';
+            }
+
+            echo '</form>';
             echo "</div>";
             echo "</div>";
             echo "</div>";
@@ -284,7 +290,15 @@
             $sql = "INSERT into `cus_order_product` (product_id, order_id, price_each)
                     VALUES ($product_id, $order_id, $price_each)";
             $res=mysqli_query($conn,$sql);
-            echo "<script> alert('Successfully added item to cart.');</script>";
+
+            $quantity = "SELECT count(`order_id`) FROM `cus_order_product` WHERE `order_id`= ". $_SESSION["order_id"];
+            $result = mysqli_query($conn, $quantity) or die(mysqli_error());
+            while($row = mysqli_fetch_array($result)) {
+                foreach ($row as $total){
+                    $_SESSION['total_quantity'] = $total;// get total item(s) in cart
+                }
+            }
+            echo "<script> alert('Successfully added item to cart.');window.location.replace('index.php');</script>";
         }
     }
 ?>

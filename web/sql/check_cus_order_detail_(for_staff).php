@@ -26,7 +26,7 @@
     margin: 0 auto;
     }
     .container-classb {
-    background-image: url('./img/head.jpg');
+    background-image: url('./img/background.jpg');
     background-repeat: no-repeat;
     background-position: top;
     width: 48%;
@@ -82,14 +82,31 @@
         include("php/connect.php");
         include("php/navbar.php");
         // var_dump($_SESSION); // Debug
+        if ($_SESSION['account_type'] != 'staff') {
+            echo
+            '<script>
+                alert("You don\'t have permission to view this page.");
+                window.location.replace("index.php");
+            </script>';
+            die();
+        }
     ?>
 
     <!-- Scroll To Top Button -->
     <button onclick="topFunction()" id="myBtn" title="Go to top"><i class="fas fa-chevron-up"></i></button>
     <!-- END of Scroll To Top Button -->
-
     <div class="container-classb">
-    <h4 class="head page-headerb"><br>CHECK ORDER LIST</h4>
+        <h4 class="head page-headerb"><br>CHECK ORDER DETAIL</h4>
+    </div>
+    <div class='container py-2'>
+        <div class='row'>
+            <div class='col'></div>
+            <div class='w-50'>
+                <br><br><br><br>
+                <button type="button" class="btn btn-info btn-block" onclick="go_back()">Back</button>
+            </div>
+            <div class='col'></div>
+        </div>
     </div>
     <br><br><br><br><br><br>
     <!-- filter container -->
@@ -97,6 +114,9 @@
     <div id="shopping-cart">
 
     <?php
+        error_reporting(~E_NOTICE );
+        error_reporting(E_ERROR | E_PARSE);
+
         $ord_id = $_POST['_id'];
 
         $quantity = "SELECT count(`order_id`) FROM `cus_order_product` WHERE `order_id`= ". $ord_id;
@@ -186,5 +206,9 @@
 // -=[End of Scroll To Top Button script]=- //
 
 </script>
-
+<script>
+    function go_back() {
+        window.location.replace("check_cus_order_(for_staff).php");
+    }
+</script>
 </html>

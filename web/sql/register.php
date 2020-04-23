@@ -7,6 +7,12 @@
 </head>
 <?php
     include("./php/connect.php");
+    // Check if the user is already logged in, if yes then redirect him to welcome page
+    if(isset($_SESSION["user_account_id"])){
+        header("location: index.php");
+        exit;
+    }
+    
     // When form submitted, insert values into the database.
     if (isset($_REQUEST['username'])){
         // removes backslashes

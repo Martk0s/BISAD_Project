@@ -24,7 +24,7 @@
     margin: 0 auto;
     }
     .container-classb {
-    background-image: url('./img/head.jpg');
+    background-image: url('./img/background.jpg');
     background-repeat: no-repeat;
     background-position: top;
     width: 48%;
@@ -216,7 +216,8 @@
     <!-- END of Scroll To Top Button -->
 
     <div class = "container-classb">
-        <h4 class="head page-header">Purchase</h4>
+        <br>
+        <h4 class="head page-headerb">PURCHASE</h4>
     </div>
     <br><br><br><br><br>
     
@@ -227,7 +228,8 @@
     <div class="container-classxx row">
         <!-- /// USER DATA /// -->
         <div class="container-classxl col">
-            Username   | <?php echo $username ?> <br>
+        <br>
+        <br>
             First Name | <?php echo $first_name ?> <br>
             Last Name  | <?php echo $last_name ?> <br>
             Email      | <?php echo $email ?> <br>
@@ -235,6 +237,7 @@
         <!-- /// USER DATA /// -->
         <!-- /// USER ADDRESS /// -->
         <div class="container-classxr col">
+            <br><br><br>
             Current Address | <?php echo $address ?>
         </div>
         <!-- /// USER ADDRESS /// -->
@@ -260,6 +263,14 @@
                     </div>
                     <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" id="cvv" name="cvv" onblur="check_cvv();" required /><br>
                     </div>
+</div>
+<div class="col-4">
+<div class="input-group-prepend">
+<span class="input-group-text" id="inputGroup-sizing-default" class="col-2 col-form-label">Expiration</span>
+<input class="form-control" type="month" value="2020-01" id="example-month-input">
+<div class="col-10">
+</div>
+</div>
                 </div><br><br>
         </div>
         <!-- /// CONFIRM FORM /// -->
@@ -269,11 +280,17 @@
             <div class="input-group-prepend">
                 <span class="input-group-text">Address</span>
             </div>
-                <textarea class="form-control" aria-label="With textarea" id="new_address" name="new_address" rows="5" cols="40" onblur="check_address()"></textarea>
+                <textarea class="form-control" aria-label="With textarea" id="new_address" name="new_address" rows="5" cols="40" placeholder="Want us to send it somewhere else? No problem! Write the address here." onblur="check_address()"></textarea>
             </div><br>
-            <button type="input" class="btn btn-success update-btnnn" name="confirm" id="confirm" value="submit" class="login-button"><i class="fas fa-cash-register"></i> Confirm </button>
-            <a href="order_list.php"><button type="input" class="btn btn-warning update-btnn" class="login-button"><i class="fas fa-shopping-cart"></i> Back to Cart </button></a>
+            <?php 
+                if ($total_quantity == 0) {
+                    echo '<button type="input" class="btn btn-success update-btnnn" name="confirm" id="confirm" value="submit" class="login-button" disabled><i class="fas fa-cash-register"></i> Confirm </button>';
+                }else{
+                    echo '<button type="input" class="btn btn-success update-btnnn" name="confirm" id="confirm" value="submit" class="login-button"><i class="fas fa-cash-register"></i> Confirm </button>';
+                }
+            ?>
             </form>
+            <a href="order_list.php"><button type="input" class="btn btn-warning update-btnn" class="login-button"><i class="fas fa-shopping-cart"></i> Back to Cart </button></a>
         <!-- /// CHANGE ADDRESS FORM /// -->
         </div>
     </div>

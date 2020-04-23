@@ -45,7 +45,17 @@
             </span>
             <ul class="navbar-nav ml-auto">
             <li class="nav-item">
-                <a class="nav-link" href="order_list.php"><i class="fa fa-shopping-cart" aria-hidden="true"></i></i> Cart &ensp;&ensp;<span class="sr-only">(current)</span></a>
+                <?php 
+                    if ($_SESSION['account_type'] == 'staff'){
+                        echo '<a class="nav-link" href="check_cus_order_(for_staff).php"><i class="fa fa-shopping-cart" aria-hidden="true"></i></i> Check Order &ensp;&ensp;<span class="sr-only">(current)</span></a>';
+                    }else{
+                        if ($_SESSION['total_quantity'] == 0) {
+                            echo '<a class="nav-link" href="order_list.php"><i class="fa fa-shopping-cart" aria-hidden="true"></i></i> Cart &ensp;&ensp;<span class="sr-only">(current)</span></a>';
+                        }else{
+                            echo '<a class="nav-link" href="order_list.php"><i class="fa fa-shopping-cart" aria-hidden="true"></i></i> Cart ('. $_SESSION["total_quantity"] .') &ensp;&ensp;<span class="sr-only">(current)</span></a>';
+                        }
+                    }
+                ?>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="php/logout.php"><i class="fa fa-sign-out" aria-hidden="true"></i> Log out</a>

@@ -15,6 +15,14 @@ $query = "DELETE FROM `cus_order_product` WHERE `cus_order_product`.`order_numbe
 
 $del = mysqli_query($conn, $query); // delete query
 
+$quantity = "SELECT count(`order_id`) FROM `cus_order_product` WHERE `order_id`= ". $_SESSION["order_id"];
+$result = mysqli_query($conn, $quantity) or die(mysqli_error());
+while($row = mysqli_fetch_array($result)) {
+    foreach ($row as $total){
+        $_SESSION['total_quantity'] = $total;// get total item(s) in cart
+    }
+}
+
 if($del)
  {
      mysqli_close($conn); // Close connection

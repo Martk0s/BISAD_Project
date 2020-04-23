@@ -68,6 +68,14 @@
     <?php
         include("php/connect.php");
         include("php/navbar.php");
+        if ($_SESSION['account_type'] != 'staff') {
+            echo
+            '<script>
+                alert("You don\'t have permission to view this page.");
+                window.location.replace("index.php");
+            </script>';
+            die();
+        }
         // var_dump($_SESSION); // Debug
     ?>
 
@@ -99,7 +107,7 @@
             echo "<div class='container'>";
             echo "<h4 style='color: #00a2e2;'>Total Price : $ " . $row["total_amount"] . "</h4>";//price ($)
             echo "<br>";
-            echo '<form action="check_order_list.php" method="POST">
+            echo '<form action="check_cus_order_detail_(for_staff).php" method="POST">
                 <input type="hidden" name="_id" value="' . $row["order_id"] . '">
                 <button type="input" class="btn btn-info ">More Detail</button>
                 </form>';
